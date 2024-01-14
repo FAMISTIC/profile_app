@@ -3,6 +3,7 @@ import 'package:profile_app/reusable_widgets/reusable_widget.dart';
 import 'package:profile_app/screens/home_screen.dart';
 import 'package:profile_app/utils/color_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -12,9 +13,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _userNameTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _userNameTextController = TextEditingController();
+
+  final CollectionReference _user =
+      FirebaseFirestore.instance.collection('user');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,11 +64,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                firebaseUIButton(context, "Sign Up", () {
+                firebaseUIButton(context, "Sign Up", () async {
+                  final String username = _userNameTextController.text;
+                  final String email = _emailTextController.text;
+                  final String password = _passwordTextController.text;
+
+                  await _user.add({
+                    "username": username,
+                    "email": email,
+                    "password": password
+                  });
+
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
+                    email: _emailTextController.text,
+                    password: _passwordTextController.text,
+                  )
                       .then((value) {
                     print("Created New Account");
                     Navigator.push(context,

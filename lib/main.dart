@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyAm83NLh2TabwonS5oXWGyX3LrVeuuIBfk",
+      appId: "1:850517602630:android:e7bd288670d68bd486b547",
+      messagingSenderId: "Messaging sender id here",
+      projectId: "profileapp-7b7c0",
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -29,6 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const SignInScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
