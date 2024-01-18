@@ -20,9 +20,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final CollectionReference _user =
       FirebaseFirestore.instance.collection('user');
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _formKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -49,18 +52,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
-                    _userNameTextController),
+                reusableTextField(
+                  "Enter UserName",
+                  Icons.person_outline,
+                  false,
+                  _userNameTextController,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Email Id", Icons.person_outline, false,
-                    _emailTextController),
+                reusableTextField(
+                  "Enter Email Id",
+                  Icons.person_outline,
+                  false,
+                  _emailTextController,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Password", Icons.lock_outlined, true,
-                    _passwordTextController),
+                reusableTextField(
+                  "Enter Password",
+                  Icons.lock_outlined,
+                  true,
+                  _passwordTextController,
+                ),
                 const SizedBox(
                   height: 20,
                 ),

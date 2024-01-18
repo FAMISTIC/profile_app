@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:profile_app/reusable_widgets/reusable_widget.dart';
 import 'package:profile_app/utils/color_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart'; // Import for email validation
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
@@ -43,8 +44,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Email Id", Icons.person_outline, false,
-                    _emailTextController),
+                reusableTextField(
+                  "Enter Email Id",
+                  Icons.person_outline,
+                  false,
+                  _emailTextController,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
