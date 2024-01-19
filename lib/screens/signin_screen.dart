@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:profile_app/reusable_widgets/reusable_widget.dart';
@@ -15,8 +17,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -114,11 +116,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Error'),
-                          content: Text('Invalid email'),
+                          title: const Text('Error'),
+                          content: const Text('Invalid email'),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('Close'),
+                              child: const Text('Close'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -133,11 +135,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Error'),
-                          content: Text('Invalid password'),
+                          title: const Text('Error'),
+                          content: const Text('Invalid password'),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('Close'),
+                              child: const Text('Close'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -154,17 +156,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HomeScreen()));
+                            builder: (context) => const HomeScreen(),
+                          ));
                     }).catchError((error) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Error'),
-                            content: Text('Sign in failed'),
+                            title: const Text('Error'),
+                            content: const Text('Sign in failed'),
                             actions: <Widget>[
                               TextButton(
-                                child: Text('Close'),
+                                child: const Text('Close'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },

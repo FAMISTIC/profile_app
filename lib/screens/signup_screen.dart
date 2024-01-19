@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
               child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
               children: <Widget>[
                 const SizedBox(
@@ -84,6 +84,95 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   final String email = _emailTextController.text;
                   final String password = _passwordTextController.text;
 
+                  if (username.isEmpty) {
+                    print("Username cannot be empty");
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: const Text('Invalid username'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Close'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  }
+
+                  // Validate email
+                  if (!email.contains('@')) {
+                    print("Please enter a valid email");
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: const Text('Invalid email'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Close'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  }
+
+                  // Validate password
+                  if (password.length < 6) {
+                    print("Password must be at least 6 characters long");
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Error'),
+                          content: const Text('Invalid password'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Close'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  }
+                  try {
+                    await _user.add({
+                      "username": username,
+                      "email": email,
+                      "password": password
+                    });
+
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+
+                    print("Created New Account");
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()));
+                  } catch (error) {
+                    print("Error ${error.toString()}");
+                  }
+                  /*
                   await _user.add({
                     "username": username,
                     "email": email,
@@ -101,7 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
-                  });
+                  });*/
                 })
               ],
             ),
