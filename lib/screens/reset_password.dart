@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:profile_app/reusable_widgets/reusable_widget.dart';
 import 'package:profile_app/utils/color_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 // Import for email validation
 
@@ -61,8 +60,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                         email: _emailTextController.text);
 
                     // Trigger Cloud Function to update Firestore
-                    HttpsCallable callable = FirebaseFunctions.instance
-                        .httpsCallable('updatePasswordInFirestore');
 
                     showDialog(
                       context: context,
@@ -82,39 +79,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                         );
                       },
                     );
-                    try {
-                      await callable({
-                        'email': _emailTextController.text,
-                        'password':
-                            '<new_password>', // Pass the new password here
-                      }); // Pass any necessary data to the Cloud Function
-                      print(
-                          "Password reset email sent and Firestore update triggered");
-                    } catch (cloudFunctionError) {
-                      print(
-                          "Error triggering Firestore update: ${cloudFunctionError.toString()}");
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Error'),
-                            content:
-                                const Text('Error triggering Firestore update'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('Close'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                      // Handle specific errors from the Cloud Function if needed
-                    }
-
-                    Navigator.of(context).pop();
                   } catch (error) {
                     print(
                         "Error sending password reset email: ${error.toString()}");
